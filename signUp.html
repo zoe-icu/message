@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>注册</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/style.css" rel='stylesheet' type='text/css' />
+        <script>
+            /**验证用户名**/
+        function checkName(str){
+            var userName = str.value;
+            var nameSpan = document.getElementById('nameSpan');
+            if(userName == ""){
+               nameSpan.style.display="block";
+//               alert(nameSpan.style.display);
+            }else{
+                nameSpan.style.display="none";
+            }
+        }
+        /**验证邮箱**/
+        function checkEmail(str){
+            var regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            var email = str.value;
+            var mailSpan = document.getElementById('mailSpan');
+            if(email == ""){
+                mailSpan.style.display="block";
+//                alert(mailSpan.style.display);
+            }else{
+                 mailSpan.style.display="none";
+                 if(regMail.test(email) == false){
+                    mailSpan.textContent="*请输入正确的邮箱地址";
+//                    alert(mailSpan.textContent);
+          
+                    mailSpan.style.display="block";
+                }else{
+//                    alert(mailSpan.textContent);
+                    mailSpan.style.display="none";
+                }
+                
+            }
+        }
+        /**验证电话号码**/
+        function checkPhone(str){
+            var phone = str.value;
+            var regPhone = /1[35874]\d{9}/;
+            var phoneSpan = document.getElementById('phoneSpan');
+            if(!(phone=="")){
+                if(regPhone.test(phone) == false){
+                phoneSpan.style.display="block";
+            }else{
+                phoneSpan.style.display="none";
+            }
+            }
+            
+        }
+        </script>
+    </head>
+    <body>
+        <div class="login-01">
+            <h2>用户不存在，请在此注册</h2>
+			<form action="signUp.php" method="post">
+				<ul>
+				<li class="first">
+					<a href="#" class=" icon user"></a><input type="text" class="text" name="name" placeholder="你的名字" id='name' onfocus="this.value = '';" onblur="checkName(this)" >
+                                        <div class="clear"><span class="check" id="nameSpan">*用户名不能为空</span></div>
+				</li>
+				<li class="first">
+                                    <a href="#" class=" icon email"></a><input type="text" class="text" name="email" id="email"  placeholder="Email" onfocus="this.value = '';" onblur="checkEmail(this)" >
+					<div class="clear"><span class="check" id="mailSpan">*邮箱不能为空</span></div>
+				</li>
+				<li class="first">
+					<a href="#" class=" icon phone"></a><input type="text" class="text" name="phone" id="telphone" placeholder="你的手机号码" onfocus="this.value = '';" onblur="checkPhone(this)" >
+					<div class="clear"><span class="check" id="phoneSpan">*请输入正确的手机号</span></div>
+				</li>
+			</ul>
+			<input type="submit" onclick="" value="提交" >
+			<div class="clear"></div>
+		</form>
+</div>
+	<!--start-copyright-->
+    </body>
+</html>

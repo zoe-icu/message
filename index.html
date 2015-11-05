@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>练习</title>
+        <link href="css/style.css" rel='stylesheet' type='text/css' />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Pink Contact Form ,Login Forms,Sign up Forms,Registration Forms,News latter Forms,Elements"/>
+        <script src="js/jquery-1.7.2.js"></script>
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <!--</script>-->
+        <!--webfonts-->
+        <link href='http://fonts.useso.com/css?family=Lato:100,300,400,700,100italic,300italic,400italic|Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.useso.com/css?family=Raleway:400,200,300,500,600,800,700,900' rel='stylesheet' type='text/css'>
+        <!--//webfonts-->
+    </head>
+    <body>
+        <ul> 
+            <?php require 'paging.php'?>
+            <!--	<?php foreach($rs as $v):?>
+                            
+                            <li class="first">
+                            <input type ="hidden" class="message_id" value="<?=$v['id']?>" />
+                                    <a href="#" class=" icon user"></a><?=$v['name']?> : <input type="text" value="<?=$v['content']?>" class="text" readonly='readonly'/><?=$v['time']?><button onclick="delete_message(this)">删除</button>
+                                    <div class="clear"></div>
+                            </li>
+                            <?php endforeach;?>-->
+        </ul>
+<!--        <?php foreach($rs as $v):?>
+        <img src="<?=$v['path']?>" class='img'>
+        <?php endforeach;?>-->
+        <script type="text/javascript">
+            function delete_message(obj)
+            {
+                var val = obj.parentNode.children[0].value;
+                $.ajax({
+                    type: 'post',
+                    url: 'delete.php',
+                    data: 'id=' + val,
+                    cached: false,
+                    success: function (data)
+                    {
+                        window.history.go(0);
+                    },
+                    error: function (data)
+                    {
+                        console.log(data);
+                    }
+                });
+            }
+            /**验证用户名**/
+            function checkName(str) {
+                var userName = str.value;
+                var nameSpan = document.getElementById('nameSpan');
+                if (userName == "") {
+                    nameSpan.style.display = "block";
+//               alert(nameSpan.style.display);
+                } else {
+                    nameSpan.style.display = "none";
+                }
+            }
+            /**验证邮箱**/
+            function checkEmail(str) {
+                var regMail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                var email = str.value;
+                var mailSpan = document.getElementById('mailSpan');
+                if (email == "") {
+                    mailSpan.style.display = "block";
+//                alert(mailSpan.style.display);
+                } else {
+                    mailSpan.style.display = "none";
+                    if (regMail.test(email) == false) {
+                        mailSpan.textContent = "*请输入正确的邮箱地址";
+//                    alert(mailSpan.textContent);
+
+                        mailSpan.style.display = "block";
+                    } else {
+//                    alert(mailSpan.textContent);
+                        mailSpan.style.display = "none";
+                    }
+
+                }
+            }
+            /**验证电话号码**/
+            function checkPhone(str) {
+                var phone = str.value;
+                var regPhone = /1[35874]\d{9}/;
+                var phoneSpan = document.getElementById('phoneSpan');
+                if (!(phone == "")) {
+                    if (regPhone.test(phone) == false) {
+                        phoneSpan.style.display = "block";
+                    } else {
+                        phoneSpan.style.display = "none";
+                    }
+                }
+
+            }
+            /**验证输入内容**/
+            function checkContent(str) {
+                var content = str.value;
+                var contentSpan = document.getElementById('contentSpan');
+                if (content == "") {
+                    contentSpan.style.display = "block";
+//               alert(nameSpan.style.display);
+                } else {
+                    contentSpan.style.display = "none";
+                }
+            }
+            function myFunction() {
+                if (document.getElementById('name').value == ""
+                        || document.getElementById('email').value == ""
+                        || document.getElementById('content').value == "") {
+                    alert("请输入必填内容");
+                    window.location.href = "message.php";
+                }
+            }
+        </script>
+        <h1>留言板</h1>
+        <div class="login-01">
+            <form action="post.php" method="post" enctype="multipart/form-data">
+                <ul>
+                    <li class="first">
+                        <a href="#" class=" icon user"></a><input type="text" class="text" name="name" placeholder="你的名字" id='name' onfocus="this.value = '';" onblur="checkName(this)" >
+                        <div class="clear"><span class="check" id="nameSpan">*用户名不能为空</span></div>
+                    </li>
+                    <li class="first">
+                        <a href="#" class=" icon email"></a><input type="text" class="text" name="email" id="email"  placeholder="Email" onfocus="this.value = '';" onblur="checkEmail(this)" >
+                        <div class="clear"><span class="check" id="mailSpan">*邮箱不能为空</span></div>
+                    </li>
+                    <li class="first">
+                        <a href="#" class=" icon phone"></a><input type="text" class="text" name="phone" id="telphone" placeholder="你的手机号码" onfocus="this.value = '';" onblur="checkPhone(this)" >
+                        <div class="clear"><span class="check" id="phoneSpan">*请输入正确的手机号</span></div>
+                    </li>
+                    <li class="second">
+                        <a href="#" class=" icon msg"></a><textarea name="content" id="content" placeholder="请输入内容" onfocus="this.value = '';" onblur="checkContent(this)"></textarea>
+              
+				<div class="clear"><span class="check" id="contentSpan">*留言信息不能为空</span></div>
+				</li>
+                    <li>
+                        <input type="file" name="filedata">
+</li>
+			</ul>
+			<input type="submit" onclick="myFunction()" value="提交" >
+			<div class="clear"></div>
+		</form>       
+</div>
+       
+<!--        <div class="div_form">
+                <form action="imgeUpload.php" method="POST" enctype="multipart/form-data" class="img-form">
+                    <input type="file" name="filedata">
+                    <img src="./upload/1446198286.jpg" alt="图片不存在">
+                    <input type="submit" value="存储">
+                </form>
+        </div>-->
+<!--<div class="div_form">          
+                    <input type="file" name="filedata">
+                    <img src="./upload/1446198286.jpg" alt="图片不存在">
+                    <button id="img">提交</button>
+        </div>-->
+<!--        <script>
+            $('.div_form #img').click(function(){
+                if($("[name=''filedata]").val()){
+                   var src = $("[name=''filedata]").val()
+                   alert(src);
+                    $.ajax({
+                        method : 'post',
+                        data:{filedata : src},
+                        url :'imgeUpload.php',
+                        success : function(data){
+                            alert(data);
+                        },
+                        error : function(data){
+                            alert('fail');
+                        }
+                    });
+                }
+            });
+        </script>-->
+	<!--start-copyright-->
+   		<div class="copy-right">
+   			<div class="wrap">
+				<p>Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+		</div>
+	</div>
+
+	<!--//end-copyright-->
+</body>
+</html>
